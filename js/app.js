@@ -1,3 +1,24 @@
+$(document).ready( function() {
+	$('.unanswered-getter').submit( function(e){
+		e.preventDefault();
+		// zero out results if previous search has run
+		$('.results').html('');
+		// get the value of the tags the user submitted
+		var tags = $(this).find("input[name='tags']").val();
+		getUnanswered(tags);
+	});
+
+	$('.inspiration-getter').submit( function (e) {
+		e.preventDefault();
+		//zero out the results if the previous search has run
+		$('.results').html('');
+		//get the value of the tags the user submitted
+		var tags = $(this).find("input[name='answerers']").val();
+		//getinspiration(tags);
+	});
+});
+
+
 // this function takes the question object returned by the StackOverflow request
 // and returns new result to be appended to DOM
 var showQuestion = function(question) {
@@ -73,6 +94,7 @@ var getUnanswered = function(tags) {
 		$.each(result.items, function(i, item) {
 			var question = showQuestion(item);
 			$('.results').append(question);
+			console.log(result);
 		});
 	})
 	.fail(function(jqXHR, error){ //this waits for the ajax to return with an error promise object
@@ -81,14 +103,22 @@ var getUnanswered = function(tags) {
 	});
 };
 
+var getInspiration = function(tags) {
 
-$(document).ready( function() {
-	$('.unanswered-getter').submit( function(e){
-		e.preventDefault();
-		// zero out results if previous search has run
-		$('.results').html('');
-		// get the value of the tags the user submitted
-		var tags = $(this).find("input[name='tags']").val();
-		getUnanswered(tags);
-	});
-});
+	// the parameters we need to pass in our request to StackOverflow's API (Inspiration)
+	var request = {
+		tagged: tags,
+		site: 'stackoverflow',
+		order: 'desc',
+		sort: 'creation'
+	};
+	// The data we exactly want
+	$.ajax({
+		url: "",
+		data: request,
+		dataType: "jsonp",
+		type: "GET",
+	})
+}
+ 
+
