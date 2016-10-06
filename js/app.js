@@ -14,7 +14,7 @@ $(document).ready( function() {
 		$('.results').html('');
 		//get the value of the tags the user submitted
 		var tags = $(this).find("input[name='answerers']").val();
-		//getinspiration(tags);
+		getInspiration(tags);
 	});
 });
 
@@ -114,11 +114,13 @@ var getInspiration = function(tags) {
 	};
 	// The data we exactly want
 	$.ajax({
-		url: "",
+		url: "http://api.stackexchange.com/2.2/tags/" + tags + "/top-answerers/all_time",
 		data: request,
 		dataType: "jsonp",
 		type: "GET",
 	})
+
+	console.log(request);
 }
  
 
