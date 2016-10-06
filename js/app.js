@@ -112,15 +112,23 @@ var getInspiration = function(tags) {
 		order: 'desc',
 		sort: 'creation'
 	};
-	// The data we exactly want
+	// The data we exactly want, 'TAGS' is the query provided by the user.
 	$.ajax({
 		url: "http://api.stackexchange.com/2.2/tags/" + tags + "/top-answerers/all_time",
 		data: request,
 		dataType: "jsonp",
 		type: "GET",
 	})
+	.done(function(result){
+			var searchResults = showSearchResults(request.tagged, result.items.length);
 
-	console.log(request);
+			$('.search-results').html(searchResults);
+			$.each(result.items, function(i, item) {
+				var question = showQuestion(item);
+				$('.results').append(question);
+				console.log(result);
+			});
+	});
 }
  
 
